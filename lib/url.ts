@@ -11,11 +11,20 @@ interface RemoveUrlQueryParams {
 
 export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
   const queryString = qs.parse(params);
+
   queryString[key] = value;
   return qs.stringifyUrl({
     url: window.location.pathname,
     query: queryString,
   });
+
+  // Implementation using URLSearchParams
+  // This is a more modern approach that works in most browsers
+  // and does not require any external libraries.
+  // It is also more efficient for simple query manipulation.
+  //   const searchParams = new URLSearchParams(params);
+  //   searchParams.set(key, value);
+  //   return `${window.location.pathname}?${searchParams.toString()}`;
 };
 
 export const removeKeysFromUrlQuery = ({
@@ -36,4 +45,10 @@ export const removeKeysFromUrlQuery = ({
       skipEmptyString: true,
     }
   );
+
+  //   const searchParams = new URLSearchParams(params);
+  //   keysToRemove.forEach((key) => {
+  //     searchParams.delete(key);
+  //   });
+  //   return `${window.location.pathname}?${searchParams.toString()}`;
 };
