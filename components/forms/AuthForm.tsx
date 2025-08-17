@@ -1,46 +1,41 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  DefaultValues,
-  FieldValues,
-  Path,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
-import { email, z, ZodType } from "zod";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import ROUTES from "@/constants/routes";
 
-interface AuthFormProps<T extends FieldValues> {
-  schema: z.ZodType<T, any, any>;
-  defaultValues: T;
-  onSubmit: (data: T) => Promise<{ success: boolean }>;
+interface AuthFormProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  schema: z.ZodObject<any>;
+  defaultValues: Record<string, string>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSubmit: (data: any) => Promise<{ success: boolean }>;
   formType: "SIGN_IN" | "SIGN_UP";
 }
-const AuthForm = <T extends FieldValues>({
+const AuthForm = ({
   schema,
   defaultValues,
   formType,
-  onSubmit,
-}: AuthFormProps<T>) => {
+}: AuthFormProps) => {
   // 1. Define your form.
-  const form = useForm<z.infer<typeof schema>>({
+  const form = useForm({
     resolver: zodResolver(schema),
-    defaultValues: defaultValues as DefaultValues<T>,
+    defaultValues,
   });
-  const handleSubmit: SubmitHandler<T> = async () => {
+  const handleSubmit = async () => {
     // TODO: Authenticate User
   };
   const buttonText = formType === "SIGN_IN" ? "Sign In" : "Sign Up";
@@ -54,7 +49,7 @@ const AuthForm = <T extends FieldValues>({
           <FormField
             key={field}
             control={form.control}
-            name={field as Path<T>}
+            name={field}
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-2.5">
                 <FormLabel className="paragraph-medium text-dark400_light700">
@@ -89,7 +84,7 @@ const AuthForm = <T extends FieldValues>({
         </Button>
         {formType === "SIGN_IN" ? (
           <p>
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href={ROUTES.SIGN_UP}
               className="paragraph-semibold primary-text-gradient"

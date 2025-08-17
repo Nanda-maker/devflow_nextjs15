@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
-import { Button } from "../ui/button";
 import Image from "next/image";
-import { toast } from "sonner";
 import { signIn } from "next-auth/react"; // Importing the signIn function from auth.ts
+import React from "react";
+import { toast } from "sonner";
+
 import ROUTES from "@/constants/routes";
+
+import { Button } from "../ui/button";
 
 const SocialAuthForm = () => {
   const buttonClass =
@@ -14,7 +16,7 @@ const SocialAuthForm = () => {
     try {
       await signIn(provider, {
         redirectTo: ROUTES.HOME,
-        //redirect: false,
+        // redirect: false,
       });
       //   throw new Error("Sign-in not implemented yet");
     } catch (error) {
