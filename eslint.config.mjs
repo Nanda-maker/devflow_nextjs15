@@ -19,7 +19,7 @@ const eslintConfig = [
     "next/typescript",
     "standard",
     "prettier"
-    // "plugin:tailwindcss/recommended"
+    // "plugin:tailwindcss/recommended" // Disabled - limited Tailwind CSS v4 support
   ),
   {
     rules: {
